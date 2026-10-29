@@ -1,0 +1,12 @@
+// Renewal contact tracking for authorized current policies. Stored in demo local storage.
+const contactTable=policyTable,contactRows=rowsHTML,contactDetails=detail,contactRender=render;
+function contactSummary(p){if(!p.contactedAt)return p.followed?'Previously marked contacted':'';return (p.contactedByName||p.contactedBy)+' · '+new Intl.DateTimeFormat('en-MY',{timeZone:'Asia/Kuala_Lumpur',dateStyle:'medium',timeStyle:'short'}).format(new Date(p.contactedAt))}
+function contactButton(p,details=false){if(p.replacedBy)return '';return p.followed?`<button class="btn" disabled title="${esc(contactSummary(p))}">✓ Contacted</button><small>${esc(contactSummary(p))}</small>`:`<button class="btn" onclick="markContacted('${p.id}',${details})">Mark contacted</button>`}
+function markContacted(id,details=false){if(!['Superadmin','Admin','Staff','Agent'].includes(role))return;const p=scoped().find(p=>p.id===id&&!p.replacedBy);if(!p||p.followed)return;const who=requestIdentity();p.followed=true;p.contactedBy=who.id;p.contactedByName=who.name;p.contactedByRole=who.role;p.contactedAt=new Date().toISOString();persist();render();if(details)detail(id);toast('Customer marked contacted for renewal. Policy and renewal request status unchanged.')}
+follow=function(id){markContacted(id)};
+policyTable=function(data){return contactTable(data).replace(/onclick="detail\('([^']+)'\)"[^>]*>View ↗<\/button>/g,(match,id)=>{const p=scoped().find(p=>p.id===id);return match+(p?contactButton(p):'')})};
+rowsHTML=function(){let html=contactRows();if(page==='Renewals')html=html.replace(/onclick="detail\('([^']+)'\)"[^>]*>View policy ↗<\/button>/g,(match,id)=>{const p=scoped().find(p=>p.id===id);return match+(p&&role==='Agent'?contactButton(p):p?.contactedAt?`<small>${esc(contactSummary(p))}</small>`:'')});return html};
+detail=function(id){const p=scoped().find(p=>p.id===id);if(!p)return;contactDetails(id);if(!p.replacedBy)document.querySelector('.modal').insertAdjacentHTML('beforeend',`<div style="margin-top:20px"><h2 style="margin-bottom:12px">Renewal follow-up</h2>${contactButton(p,true)}<p class="permission">Contact tracking does not request renewal or change insurance coverage.</p></div>`)};
+render=function(){contactRender();if(role==='Agent'){const banner=document.querySelector('.content .banner');if(banner)banner.textContent='Your assigned customers only · Mark contacted or request renewal. Only Admin / Staff can upload and save policies.'}};
+render();
+
