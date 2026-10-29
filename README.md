@@ -29,7 +29,7 @@ Open http://127.0.0.1:3000. The standalone `index.html` also works on a static w
 - Renewed policy uploads replace the latest vehicle insurance period and retain linked historical policies. Current views show the new dates and insurer; reminder dates use the new expiry. Renewals must match the same customer and vehicle, and overlapping periods are rejected. Historical records remain viewable by authorized roles.
 - Staff/Admin upload simulation, sample AI extraction, review, editing, and direct policy save without approval.
 - Search, CSV export for operational roles, renewal follow-up tracking, and responsive navigation.
-- Renewal reminders for Admin, Staff and Agent at 60, 30 and 7 days before expiry; separate 31–60, 8–30, 0–7 and overdue groups. Agents see only assigned customer reminders. Admin/Staff can filter their own customers or all agency customers. Malaysia calendar dates, date simulation, reminder badges and linked policy details are included. Reminders are calculated in the browser; no automatic messages or background notifications are sent.
+- Renewal reminders for Admin, Staff and Agent at 60, 30 and 7 days before expiry; separate 31–60, 8–30 and 0–7 groups. The Renewals page and reminder badges include only unrenewed policies expiring from today through day 60 inclusive, excluding expired policies and those beyond 60 days. Existing requested renewals remain in their separate request listing. Agents see only assigned customer reminders. Admin/Staff can filter their own customers or all agency customers. Malaysia calendar dates, date simulation, reminder badges and linked policy details are included. Reminders are calculated in the browser; no automatic messages or background notifications are sent.
 
 ## Data and implementation
 
