@@ -18,16 +18,17 @@ Open http://127.0.0.1:3000. The standalone `index.html` also works on a static w
 - One Superadmin (`SUPER-001`), responsible for Admin accounts; no additional Superadmin creation flow.
 - Admin creates, edits, and deletes Staff accounts. Staff adds Agent accounts only.
 - Unique User IDs across all roles, checked without regard to case and reserved for future login.
-- Agents have read-only access to their assigned customers, policies, and details.
+- Agents have read-only access to their assigned customers, policies, details, and renewal reminders.
 - Customer profiles contain name, unique IC, contact number, email, address, and an assigned account. Admin, Staff, and Agent accounts can own customers.
 - Customer IC comparison ignores spaces, hyphens, and letter case. Seed ICs are deliberately fictional identifiers.
 - A customer can have multiple vehicles and policies. Insurer and vehicle information belong to separate policy records, not personal profiles.
 - Staff/Admin upload simulation, sample AI extraction, review, editing, and direct policy save without approval.
 - Search, CSV export for operational roles, renewal follow-up tracking, and responsive navigation.
+- Renewal reminders for Admin, Staff and Agent at 60, 30 and 7 days before expiry; separate 31–60, 8–30, 0–7 and overdue groups. Agents see only assigned customer reminders. Admin/Staff can filter their own customers or all agency customers. Malaysia calendar dates, date simulation, reminder badges and linked policy details are included. Reminders are calculated in the browser; no automatic messages or background notifications are sent.
 
 ## Data and implementation
 
-`index.html` is self-contained and includes all application scripts and styles. `accounts.js` and `customers.js` are source reference copies of the corresponding inline modules. If editing these copies, synchronize the corresponding inline sections in `index.html` before release.
+`index.html` is self-contained and includes all application scripts and styles. `accounts.js`, `customers.js`, and `renewals.js` are source reference copies of the corresponding inline modules. If editing these copies, synchronize the corresponding inline sections in `index.html` before release.
 
 Changes made in the demo are stored only in the current browser's local storage under `bbt-demo-policies`, `bbt-demo-accounts`, and `bbt-demo-customers`. They are not uploaded to GitHub or synchronized between devices. Clear these keys in browser storage to reset the demo. Source contains fictional seed records only; screenshots and browser exports are excluded.
 
