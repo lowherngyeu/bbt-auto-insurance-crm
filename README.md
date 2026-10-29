@@ -18,6 +18,7 @@ Open http://127.0.0.1:3000. The standalone `index.html` also works on a static w
 - One Superadmin (`SUPER-001`), responsible for Admin accounts; no additional Superadmin creation flow.
 - Admin creates, edits, and deletes Staff accounts. Staff adds Agent accounts only.
 - Unique User IDs across all roles, checked without regard to case and reserved for future login.
+- Agent Dashboard shows only the selected Agent ID’s assigned customers and current policies: premium total, active policies, 0–60 day reminders, customer count, pending requests, contacted-policy count and recent policy actions. Pending requests remain in the expiry reminder list with the existing days-to-expiry. Empty agents have zero totals; other roles retain their existing dashboards.
 - Agents view only assigned customers, policies, details, and reminders; they may mark customers contacted and request renewal but cannot upload or save policies.
 - Customer profiles contain name, unique IC, contact number, email, address, and an assigned account. Admin, Staff, and Agent accounts can own customers.
 - Customer IC comparison ignores spaces, hyphens, and letter case. Seed ICs are deliberately fictional identifiers.
@@ -33,7 +34,7 @@ Open http://127.0.0.1:3000. The standalone `index.html` also works on a static w
 
 ## Data and implementation
 
-`index.html` is self-contained and includes all application scripts and styles. `accounts.js`, `customers.js`, and `renewals.js`, and `policy-renewal.js`, and `renewal-requests.js`, and `contact-tracking.js`, and `requested-renewals.js`, and `renewal-quotations.js` are source reference copies of the corresponding inline modules. If editing these copies, synchronize the corresponding inline sections in `index.html` before release.
+`index.html` is self-contained and includes all application scripts and styles. `accounts.js`, `customers.js`, and `renewals.js`, and `policy-renewal.js`, and `renewal-requests.js`, and `contact-tracking.js`, and `requested-renewals.js`, and `renewal-quotations.js`, and `agent-dashboard.js` are source reference copies of the corresponding inline modules. If editing these copies, synchronize the corresponding inline sections in `index.html` before release.
 
 Changes made in the demo are stored only in the current browser's local storage under `bbt-demo-policies`, `bbt-demo-accounts`, and `bbt-demo-customers`. They are not uploaded to GitHub or synchronized between devices. Clear these keys in browser storage to reset the demo. Source contains fictional seed records only; screenshots and browser exports are excluded.
 
