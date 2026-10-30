@@ -1,0 +1,6 @@
+// Car coverage status is separate from any pending renewal request.
+const carStatusRows=rowsHTML;
+function carCoverageStatus(p,today=malaysiaToday()){const expiry=dayNumber(p.end),asOf=dayNumber(today);if(!Number.isFinite(expiry)||!Number.isFinite(asOf))return 'Not recorded';if(expiry<asOf)return 'Expired';if(Number.isFinite(dayNumber(p.start))&&dayNumber(p.start)>asOf)return 'Upcoming';return 'Active'}
+rowsHTML=function(){if(page!=='Vehicles'||role!=='Agent')return carStatusRows();const records=scoped().filter(p=>!p.replacedBy&&[p.plate,p.car,p.name,p.insurer,p.start,p.end,carCoverageStatus(p)].join(' ').toLowerCase().includes(query.toLowerCase()));return table(['Registration','Make / model','Customer','Current period','Insurer','Status','Actions'],records.map(p=>{const status=carCoverageStatus(p);return [`<b>${esc(p.plate)}</b>`,esc(p.car),esc(p.name),`${esc(p.start||'Not recorded')} → ${esc(p.end)}`,esc(p.insurer),`<span class="pill ${status==='Expired'?'red':status==='Upcoming'?'amber':''}">${status}</span>${pendingRenewal(p)?'<small>Renewal pending</small>':''}`,`${pendingRenewal(p)?lockedPolicyButton():`<button class="link" onclick="detail('${p.id}')">View policy ↗</button>`}<button class="link" onclick="policyHistory('${p.id}')">History</button>`]}))};
+render();
+
