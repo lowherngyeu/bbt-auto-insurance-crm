@@ -1,0 +1,11 @@
+// A renewal's policy viewer unlocks only after an authorized renewed-policy save.
+const uploadedPolicyTable=policyTable,uploadedPolicyRows=rowsHTML,uploadedPolicyDetails=detail;
+function savedRenewalFor(p){if(!p||pendingRenewal(p))return null;const target=p.replacedBy||p.renewalRequest?.newPolicyId;const next=target?scoped().find(item=>item.id===target&&item.renewsPolicyId===p.id):p.renewsPolicyId&&p.createdAt?p:null;return next&&!pendingRenewal(next)?next:null}
+function lockedPolicyButton(){return '<button class="link" disabled aria-disabled="true" title="Available after Admin or Staff uploads and saves the renewed policy" style="opacity:.45;cursor:not-allowed">View policy ↗</button><small>Awaiting renewed policy upload</small>'}
+function renewedPolicyButton(id){const p=scoped().find(item=>item.id===id),next=savedRenewalFor(p);return next?`<button class="link" onclick="viewSavedRenewal('${p.id}')">View policy ↗</button>`:lockedPolicyButton()}
+function viewSavedRenewal(id){const p=scoped().find(item=>item.id===id),next=savedRenewalFor(p);if(!next){toast('The renewed policy is not available yet. Admin or Staff must upload and save it first.');return}detail(next.id)}
+policyTable=function(data){return uploadedPolicyTable(data).replace(/<button class="link" onclick="detail\('([^']+)'\)"[^>]*>View ↗<\/button>/g,(button,id)=>{const p=scoped().find(item=>item.id===id);return p&&pendingRenewal(p)?lockedPolicyButton():button})};
+rowsHTML=function(){const html=uploadedPolicyRows();return html.replace(/<button class="link" onclick="detail\('([^']+)'\)"[^>]*>View (?:active )?policy ↗<\/button>/g,(button,id)=>{const p=scoped().find(item=>item.id===id);if(!p)return lockedPolicyButton();if(page==='Renewals'||page==='Requested renewals')return renewedPolicyButton(id);return pendingRenewal(p)?lockedPolicyButton():button})};
+detail=function(id){const p=scoped().find(item=>item.id===id);if(!p)return;if(pendingRenewal(p)){toast('Renewal is Pending. View policy becomes available after Admin or Staff uploads and saves the renewed policy.');return}if(page==='Renewals'&&!savedRenewalFor(p)){toast('No renewed policy has been uploaded yet.');return}uploadedPolicyDetails(id)};
+render();
+
